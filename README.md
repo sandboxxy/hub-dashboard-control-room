@@ -44,8 +44,16 @@ The general steps to generate the data for predtimechart are:
 3. clone the hub repository into `repo/`
 4. Generate the Predtimechart data
    ```bash
-   mkdir -p data
-   hub_predtimechart repo predtimechart-config.yml data/predtimechart-options.json data
+   mkdir -p out/targets/
+   mkdir -p out/forecasts/
+   ptc_generate_flusight_targets \
+     repo \
+     out/targets
+   ptc_generate_json_files \
+     repo \
+     predtimechart-config.yml \
+     out/predtimechart-options.json \
+     out/forecasts
    ```
 5. enter `repo/` and checkout the `ptc/data` branch
 6. copy the contents of `../data` to your current folder
@@ -54,10 +62,11 @@ The general steps to generate the data for predtimechart are:
 
 ### Static Site
 
-The static site is generated via docker command and writes a folder called 
-`_site/` under the `pages/` folder of the dashboard repository. You need to then
-copy the contents of `_site/` into the `gh-pages` branch of the dashboard
-repository. 
+The static site is generated via the [hubverse-org/hub-dash-site-builder
+container](https://github.com/hubverse-org/hub-dash-site-builder/pkgs/container/hub-dash-site-builder)
+and writes a folder called `_site/` under the `pages/` folder of the dashboard
+repository. You need to then copy the contents of `_site/` into the `gh-pages`
+branch of the dashboard repository. 
 
 
 1. clone the dashboard repository
