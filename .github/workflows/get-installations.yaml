@@ -1,0 +1,38 @@
+name: "List installed repositories"
+on:
+  workflow_dispatch:
+
+jobs:
+  repos:
+    name: "Get list of dashboard repositories"
+    env:
+      APP_ID: ${{ vars.APP_ID }}
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    runs-on: ubuntu-latest
+    outputs:
+      repos: ${{ steps.repos.outputs.repos }}
+      slug: ${{ steps.repos.outputs.slug }}
+      id: ${{ steps.repos.outputs.id }}
+      email: ${{ steps.repos.outputs.email }}
+      token: ${{ steps.token.outputs.token }}
+    steps:
+      - id: checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            requirements.txt
+            appHelper.py
+            getInstallations.py
+      - id: setup-snake
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: pip
+      - id: install
+        run: pip install -r requirements.txt
+      - id: repos
+        run: python getInstallations.py
+      - id: list-repos
+        run: |
+          echo "${{ steps.repos.outputs.repos }}"
