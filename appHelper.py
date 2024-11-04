@@ -52,13 +52,13 @@ def get_app():
     cert = read_pem()
     auth = Auth.AppAuth(os.environ["APP_ID"], str(cert))
     gi = GithubIntegration(auth = auth)
-    return gi
+    return {"integration": gi, "app": gi.get_app(), "inst": gi.get_installations()}
 
 def get_slug_id():
     ghapp = get_app()
-    installation = ghapp.get_installations()[0]
+    installation = ghapp["inst"][0]
     gh = installation.get_github_for_installation()
-    app = ghapp.get_app()
+    app = ghapp["app"]
     app_usr = gh.get_user(app.slug+"[bot]")
     email = f'{app_usr.id}+{app_usr.login}@users.noreply.github.com'
     write_string("slug", app.slug)
@@ -68,14 +68,16 @@ def get_slug_id():
 
 def list_repositories():
     ghapp = get_app()
-    installation = ghapp.get_installations()[0]
-    # get the full names for the repositories
-    repos = [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
+    repos = []
+    for installation in ghapp["inst"]:
+        # get the full names for the repositories
+        repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
+
     write_json("repos", repos)
 
 def get_token():
     ghapp = get_app()
-    installation = ghapp.get_installations()[0]
+    installation = ghapp["inst"][0]
     token = ghapp.get_access_token(installation.id)
     write_string("token", token.token)
 
