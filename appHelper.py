@@ -47,7 +47,7 @@ def write_json(key, value):
             f.write(f'{key}<<{rid}\n{json.dumps(value)}\n{rid}\n')
             f.close()
 
-def get_installation():
+def get_app():
     # Auth dance
     cert = read_pem()
     auth = Auth.AppAuth(os.environ["APP_ID"], str(cert))
@@ -55,7 +55,7 @@ def get_installation():
     return gi
 
 def get_slug_id():
-    ghapp = get_installation()
+    ghapp = get_app()
     installation = ghapp.get_installations()[0]
     gh = installation.get_github_for_installation()
     app = ghapp.get_app()
@@ -67,14 +67,14 @@ def get_slug_id():
 
 
 def list_repositories():
-    ghapp = get_installation()
+    ghapp = get_app()
     installation = ghapp.get_installations()[0]
     # get the full names for the repositories
     repos = [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
     write_json("repos", repos)
 
 def get_token():
-    ghapp = get_installation()
+    ghapp = get_app()
     installation = ghapp.get_installations()[0]
     token = ghapp.get_access_token(installation.id)
     write_string("token", token.token)
