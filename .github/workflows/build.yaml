@@ -68,7 +68,7 @@ jobs:
       - id: checkout-pages
         uses: actions/checkout@v4
         with:
-          token: ${{ steps.token.output.token }}
+          token: ${{ steps.token.outputs.token }}
           persist-credentials: false
           repository: ${{ steps.id.outputs.repo }}
           sparse-checkout-cone-mode: false
