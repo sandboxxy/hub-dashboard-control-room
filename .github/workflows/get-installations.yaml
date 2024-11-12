@@ -1,9 +1,19 @@
 name: "List installed repositories"
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: ["registration"]
 
 jobs:
+  registration:
+    if: "${{ github.event_name == 'repository_dispatch' && github.event.client_payload.new }}"
+    name: "List new dashboard repositories"
+    steps:
+      - id: echo
+        run: echo ${{ github.event.client_payload }}
+
   repos:
+    if: "${{ github.event_name == 'workflow_dispatch' }}"
     name: "Get list of dashboard repositories"
     env:
       APP_ID: ${{ vars.APP_ID }}
