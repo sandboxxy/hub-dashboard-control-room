@@ -32,7 +32,7 @@ jobs:
             echo "new<<EOF"
             echo '${{ toJSON(github.event.client_payload.newbies) }}'
             echo "EOF"
-          } >> "$GITHUB_OUTPUTS"
+          } >> "$GITHUB_OUTPUT"
       - id: checkout
         uses: actions/checkout@v4
         with:
