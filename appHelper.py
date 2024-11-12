@@ -68,7 +68,6 @@ def get_slug_id():
 
 def list_repositories():
     newbies = os.environ.get("NEW_REPOS")
-    print(newbies)
     if newbies is not None:
         repos = json.loads(newbies)
     else:
@@ -77,6 +76,7 @@ def list_repositories():
         for installation in ghapp["inst"]:
             # get the full names for the repositories
             repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
+    repos = filter(lambda x: x.name != "hub-dashboard-control-room", repos)
 
     write_json("repos", repos)
 
