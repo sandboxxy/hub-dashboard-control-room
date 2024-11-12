@@ -69,7 +69,7 @@ def get_slug_id():
 def list_repositories():
     newbies = os.environ.get("NEW_REPOS")
     print(newbies)
-    # if newbies is not None:
+    # if newbies is not None and newbies != "null":
     #     repos = json.loads(newbies)
     # else:
     ghapp = get_app()
@@ -77,9 +77,9 @@ def list_repositories():
     for installation in ghapp["inst"]:
         # get the full names for the repositories
         repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
-    repos = filter(lambda x: x.name != "hub-dashboard-control-room", repos)
+    repos.remove({"owner":"hubverse-org", "name":"hub-dashboard-control-room"})
 
-    write_json("repos", list(repos))
+    write_json("repos", repos)
 
 def get_token():
     ghapp = get_app()
