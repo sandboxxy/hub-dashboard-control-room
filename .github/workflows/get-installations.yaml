@@ -14,11 +14,11 @@ jobs:
         run: echo "${{ toJSON(github.event.client_payload) }}"
 
   repos:
-    if: "${{ github.event_name == 'workflow_dispatch' }}"
     name: "Get list of dashboard repositories"
     env:
       APP_ID: ${{ vars.APP_ID }}
       PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      NEW_REPOS: ${{ github.event.client_payload.newbies }}
     runs-on: ubuntu-latest
     outputs:
       repos: ${{ steps.repos.outputs.repos }}
@@ -43,7 +43,8 @@ jobs:
       - id: install
         run: pip install -r requirements.txt
       - id: repos
-        run: python getInstallations.py
+        run: |
+          python getInstallations.py
       - id: list-repos
         run: |
           echo "${{ steps.repos.outputs.repos }}"

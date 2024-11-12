@@ -67,11 +67,15 @@ def get_slug_id():
 
 
 def list_repositories():
-    ghapp = get_app()
-    repos = []
-    for installation in ghapp["inst"]:
-        # get the full names for the repositories
-        repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
+    newbies = os.environ.get("NEW_REPOS")
+    if newbies is not None:
+        repos = json.loads(newbies)
+    else:
+        ghapp = get_app()
+        repos = []
+        for installation in ghapp["inst"]:
+            # get the full names for the repositories
+            repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
 
     write_json("repos", repos)
 
