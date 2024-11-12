@@ -77,7 +77,15 @@ def list_repositories():
     for installation in ghapp["inst"]:
         # get the full names for the repositories
         repos += [{"owner":x.owner.login, "name":x.name} for x in installation.get_repos()]
-    repos.remove({"owner":"hubverse-org", "name":"hub-dashboard-control-room"})
+    invalid = [
+        {"owner":"hubverse-org", "name":"hub-dashboard-control-room"},
+        {"owner":"zkamvar", "name":"hub-dashboard-control-room"}
+    ]
+    for i in invalid:
+        try:
+            repos.remove(i)
+        except ValueError:
+            pass
 
     write_json("repos", repos)
 
