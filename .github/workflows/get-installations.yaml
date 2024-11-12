@@ -27,9 +27,9 @@ jobs:
       token: ${{ steps.token.outputs.token }}
     steps:
       - id: new-repos
-        run:
+        run: |
           echo "new=EOF<<" >> $GITHUB_OUTPUT
-          echo '${{ toJSON(github.event.client_payload.newbies) }}' >> $GITHUB_OUTPUT
+          echo "${{ toJSON(github.event.client_payload.newbies) }}" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
       - id: checkout
         uses: actions/checkout@v4
