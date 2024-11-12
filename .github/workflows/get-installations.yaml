@@ -8,6 +8,7 @@ jobs:
   registration:
     if: "${{ github.event_name == 'repository_dispatch' && github.event.client_payload.new }}"
     name: "List new dashboard repositories"
+    runs-on: ubuntu-latest
     steps:
       - id: echo
         run: echo ${{ github.event.client_payload }}
