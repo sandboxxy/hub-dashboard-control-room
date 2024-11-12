@@ -26,6 +26,13 @@ jobs:
       email: ${{ steps.repos.outputs.email }}
       token: ${{ steps.token.outputs.token }}
     steps:
+      - id: new-repos
+        run: |
+          {
+            echo "new<<EOF"
+            echo '${{ toJSON(github.event.client_payload.newbies) }}'
+            echo "EOF"
+          } >> "$GITHUB_OUTPUTS"
       - id: checkout
         uses: actions/checkout@v4
         with:
@@ -45,11 +52,6 @@ jobs:
         env:
           NEW_REPOS: ${{ steps.new-repos.outputs.new }}
         run: |
-          {
-            echo "NEW_REPOS<<EOF"
-            echo '${{ toJSON(github.event.client_payload.newbies) }}'
-            echo "EOF"
-          } >> "$GITHUB_ENV"
           python getInstallations.py
       - id: list-repos
         run: |
