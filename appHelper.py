@@ -68,6 +68,7 @@ def get_slug_id():
 
 def list_repositories():
     newbies = os.environ.get("NEW_REPOS")
+    print(newbies)
     if newbies is not None:
         repos = json.loads(newbies)
     else:
