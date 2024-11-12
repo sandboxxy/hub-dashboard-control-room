@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: echo
-        run: echo ${{ github.event.client_payload }}
+        run: echo "${{ toJSON(github.event.client_payload) }}"
 
   repos:
     if: "${{ github.event_name == 'workflow_dispatch' }}"
