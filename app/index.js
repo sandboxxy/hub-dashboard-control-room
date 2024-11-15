@@ -27,7 +27,7 @@ module.exports = (app) => {
       "message": "New Repository!"
     };
     const dispatch = {
-      "owner": "hubverse-org",
+      "owner": "sandboxxy",
       "repo": "hub-dashboard-control-room",
       "event_type": "registration",
       "client_payload": client_payload
