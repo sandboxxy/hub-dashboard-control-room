@@ -32,7 +32,7 @@ module.exports = (app) => {
       "event_type": "registration",
       "client_payload": client_payload
     }
-    app.log(`A new repository was added ${client_payload.newbies}`);
+    app.log(`A new repository was added ${client_payload.newbies.owner}/${client_payload.newbies.name}`);
     return context.octokit.repos.createDispatchEvent(dispatch);
   })
 }
