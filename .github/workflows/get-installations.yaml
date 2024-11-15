@@ -2,6 +2,9 @@ name: "List installed repositories"
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   repos:
     name: "Get list of dashboard repositories"
